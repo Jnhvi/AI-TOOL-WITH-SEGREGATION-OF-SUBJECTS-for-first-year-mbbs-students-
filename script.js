@@ -1,46 +1,43 @@
-const subjects = {
-  anatomy: [],
-  physiology: [],
-  biochemistry: []
-};
-let currentSubject = "anatomy";
+let subject = "Physiology"; // default subject
 
-const navButtons = document.querySelectorAll('nav button');
-navButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelector('nav button.active').classList.remove('active');
-    btn.classList.add('active');
-    currentSubject = btn.getAttribute('data-subject');
-    renderChat();
-  });
-});
-
-const form = document.getElementById('chat-form');
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  const input = document.getElementById('user-input');
-  const userMsg = input.value.trim();
-  if (!userMsg) return;
-  subjects[currentSubject].push({ sender: 'user', text: userMsg });
-  renderChat();
-  input.value = '';
-  setTimeout(() => {
-    const botMsg = "Mock answer: " + userMsg + " in " + currentSubject;
-    subjects[currentSubject].push({ sender: 'bot', text: botMsg });
-    renderChat();
-  }, 500);
-});
-
-function renderChat() {
-  const container = document.getElementById('chat-container');
-  container.innerHTML = '';
-  subjects[currentSubject].forEach(msg => {
-    const div = document.createElement('div');
-    div.classList.add('message', msg.sender === 'user' ? 'msg-user' : 'msg-bot');
-    div.textContent = msg.sender === 'user' ? "You: " + msg.text : msg.text;
-    container.appendChild(div);
-  });
-  container.scrollTop = container.scrollHeight;
+function setSubject(newSubject) {
+  subject = newSubject;
+  addMessage("system", `🔄 Switched to ${subject}. Ask me anything.`);
 }
 
-renderChat();
+function addMessage(sender, text) {
+  const chatOutput = document.getElementById("chat-output");
+  const message = document.createElement("div");
+  message.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  chatOutput.appendChild(message);
+  chatOutput.scrollTop = chatOutput.scrollHeight;
+}
+
+async function sendMessage() {
+  const userInput = document.getElementById("user-input");
+  const userText = userInput.value.trim();
+  if (!userText) return;
+
+  addMessage("You", userText);
+  userInput.value = "";
+
+  // OpenAI call
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer sk-...mTEA"
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: `You are a helpful medical tutor specialized in ${subject}.` },
+        { role: "user", content: userText }
+      ]
+    })
+  });
+
+  const data = await response.json();
+  const aiText = data.choices?.[0]?.message?.content || "Sorry, I didn't get that.";
+  addMessage("AI", aiText);
+}
