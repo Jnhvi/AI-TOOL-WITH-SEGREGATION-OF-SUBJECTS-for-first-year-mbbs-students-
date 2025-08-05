@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Physiology Chat</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Medical AI Chat</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="chat-container">
-    <div class="chat-box" id="chat-box"></div>
-    <form id="chat-form">
-      <input type="text" id="user-input" placeholder="Ask your doubt here..." required />
-      <button type="submit">Send</button>
-    </form>
+  <h1>Medical Student AI Tool</h1>
+
+  <div class="subject-buttons">
+    <button onclick="setSubject('Anatomy')">Anatomy</button>
+    <button onclick="setSubject('Physiology')">Physiology</button>
+    <button onclick="setSubject('Biochemistry')">Biochemistry</button>
   </div>
+
+  <div class="chat-box">
+    <div id="chat-output"></div>
+    <textarea id="user-input" placeholder="Ask your question..."></textarea>
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
