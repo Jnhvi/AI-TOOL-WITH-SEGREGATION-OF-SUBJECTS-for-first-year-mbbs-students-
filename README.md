@@ -1,0 +1,1 @@
+# AI-TOOL-WITH-SEGREGATION-OF-SUBJECTS-for-first-year-mbbs-students-
