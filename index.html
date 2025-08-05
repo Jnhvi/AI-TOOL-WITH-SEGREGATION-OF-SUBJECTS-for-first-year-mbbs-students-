@@ -3,30 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MBBS Concept Chat</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <title>Physiology Chat</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>MBBS Concept Chat</h1>
-    <p>Ask Anatomy, Physiology, or Biochemistry questions</p>
-  </header>
-
-  <nav>
-    <button data-subject="anatomy" class="active">Anatomy</button>
-    <button data-subject="physiology">Physiology</button>
-    <button data-subject="biochemistry">Biochemistry</button>
-  </nav>
-
-  <div id="chat-container">
-    <!-- Chat interface will load here -->
+  <div class="chat-container">
+    <div class="chat-box" id="chat-box"></div>
+    <form id="chat-form">
+      <input type="text" id="user-input" placeholder="Ask your doubt here..." required />
+      <button type="submit">Send</button>
+    </form>
   </div>
-
-  <form id="chat-form">
-    <input type="text" id="user-input" placeholder="Type your question..." required/>
-    <button type="submit">Send</button>
-  </form>
-
   <script src="script.js"></script>
 </body>
 </html>
